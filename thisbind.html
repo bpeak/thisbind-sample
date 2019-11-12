@@ -1,0 +1,55 @@
+<html>
+  <head></head>
+  <body>
+    <button>test</button>
+    <script>
+      const btn = document.querySelector('button');
+
+      // 화살표함수 => 맥락에따라 this 결정 => 현재맥락보면 window 가 this => 클릭시 window 출력
+      // btn.addEventListener('click', () => {
+      //   console.log(this);
+      // });
+
+      // 내부적으로 해당 타겟에 콜백이 bind 됨 => 바인드된 this 인 button 객체 출력 ( 만약 내부적으로 다른것에 바인딩 시켰다면 그게 출력 되겠지 )
+      btn.addEventListener('click', function() {
+        console.log(this);
+      });
+
+      // 원리는다르지만 둘다 window 출력 ( 위 두가지 케이스 생각해보면 당연 )
+      // window.addEventListener('click', () => {
+      //   console.log(this);
+      // });
+      // window.addEventListener('click', function() {
+      //   console.log(this);
+      // });
+
+      const person = {
+        name: 'gil',
+        age: 27,
+      };
+      const test = {
+        name: "i'm test object",
+        set: function() {
+          // 윈도우객체 출력
+          // window.addEventListener('click', function() {
+          //   console.log(this);
+          // });
+
+          // test 객체 출력 why? 화살표함수 => this 를 렉시컬바인딩 => 현재 맥락에서 this 는 test 객체 => 클릭시 test 객체 출력!
+          // window.addEventListener('click', () => {
+          //   console.log(this);
+          // });
+
+          // person 객체 출력 why? 명시적 bind => 저 콜백함수는 언제나 바인딩된 person 객체를 가르키게됨
+          window.addEventListener(
+            'click',
+            function() {
+              console.log(this);
+            }.bind(person),
+          );
+        },
+      };
+      test.set();
+    </script>
+  </body>
+</html>
